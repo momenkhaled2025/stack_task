@@ -1,60 +1,71 @@
+require 'benchmark'
+
 class Stack
-  
   def initialize
     @stack = []
-    @max_stack = []
-    @sum = 0 
+    @max = nil
+    @sum = 0
     @count = 0
   end
-  
+
   def push(number)
     @stack.push(number)
-    
-    @sum +=number
-    @count+=1
-    
-    if @max_stack.empty? || number >= @max_stack.last
-      @max_stack.push(number)
-    else   
-      @max_stack.push(@max_stack.last)   
-    end
-    
-  end
-  
-   def pop
-    return if @stack.empty?
-    
-    number = @stack.pop
-     
-    @sum -=number
-    @count-=1
-              
-    @max_stack.pop
-   end
-  
-   def max
-    @max_stack.last 
-   end
-end
+    @sum += number
+    @count += 1
 
+    if @max.nil? || number > @max
+      @max = number
+    end
+  end
+
+  def pop
+    unless @stack.empty?
+      number = @stack.pop
+      @sum -= number
+      @count -= 1
+
+      if number == @max
+        @max = @stack.max
+      end
+
+      number
+    end
+  end
+
+  def max
+    @max
+  end
+end
 
 class Extras < Stack
   def mean
-    return "Not element existing in Stack !" if @count == 0
-    @sum.to_f / @count
+    if @count == 0
+      nil
+    else
+      @sum.to_f / @count
+    end
   end
 end
 
 stack = Extras.new
 
-stack.push(3)
-stack.push(2)
-stack.push(5)
-stack.push(1)
-stack.pop
-stack.pop
+push_time = Benchmark.measure do
+  10_000_000.times do
+    stack.push(rand(1..10))
+  end
+end
 
-puts stack.max
-puts stack.mean
+max_time = Benchmark.measure do
+  stack.max
+end
+
+mean_time = Benchmark.measure do
+  stack.mean
+end
 
 
+
+# Output the results of the benchmarking
+puts "Time to push  elements: #{push_time.real} seconds"
+puts "Time to get max: #{max_time.real} seconds"
+puts "Time to get mean: #{mean_time.real} seconds"
