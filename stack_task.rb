@@ -65,7 +65,6 @@ end
 
 
 
-# Output the results of the benchmarking
 puts "Time to push  elements: #{push_time.real} seconds"
 puts "Time to get max: #{max_time.real} seconds"
 puts "Time to get mean: #{mean_time.real} seconds"
