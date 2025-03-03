@@ -55,6 +55,9 @@ push_time = Benchmark.measure do
   end
 end
 
+puts "Max value: #{stack.max}"
+puts "Mean value: #{stack.mean}"
+
 max_time = Benchmark.measure do
   stack.max
 end
