@@ -54,9 +54,7 @@ class Extras < Stack
     if @count == 0
       nil
     else
-
       @sum.to_f / @count
-
     end
   end
 end
