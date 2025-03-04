@@ -4,15 +4,10 @@ class Stack
   def initialize
     @stack = []
     @max = nil
-    @sum = 0
-    @count = 0
   end
 
   def push(number)
     @stack.push(number)
-    @sum += number
-    @count += 1
-
     if @max.nil? || number > @max
       @max = number
     end
@@ -21,13 +16,9 @@ class Stack
   def pop
     unless @stack.empty?
       number = @stack.pop
-      @sum -= number
-      @count -= 1
-
       if number == @max
         @max = @stack.max
       end
-
       number
     end
   end
@@ -38,6 +29,27 @@ class Stack
 end
 
 class Extras < Stack
+  def initialize
+    super()
+    @sum = 0
+    @count = 0
+  end
+
+  def push(number)
+    super(number)
+    @sum += number
+    @count += 1
+  end
+
+  def pop
+    number = super()
+    if number
+      @sum -= number
+      @count -= 1
+    end
+    number
+  end
+
   def mean
     if @count == 0
       nil
@@ -66,8 +78,6 @@ mean_time = Benchmark.measure do
   stack.mean
 end
 
-
-
-puts "Time to push  elements: #{push_time.real} seconds"
+puts "Time to push elements: #{push_time.real} seconds"
 puts "Time to get max: #{max_time.real} seconds"
 puts "Time to get mean: #{mean_time.real} seconds"
