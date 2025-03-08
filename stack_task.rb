@@ -1,30 +1,28 @@
-require 'benchmark'
-
 class Stack
   def initialize
     @stack = []
-    @max = nil
+    @max = nil  
   end
 
   def push(number)
     @stack.push(number)
     if @max.nil? || number > @max
-      @max = number
+      @max = number  
     end
   end
 
   def pop
-    unless @stack.empty?
+    if !@stack.empty?
       number = @stack.pop
       if number == @max
-        @max = @stack.max
+        @max = @stack.max  
       end
       number
     end
   end
 
   def max
-    @max
+    @max 
   end
 end
 
@@ -32,32 +30,26 @@ class Extras < Stack
   def initialize
     super()
     @sum = 0
-    @count = 0
   end
 
   def push(number)
     super(number)
     @sum += number
-    @count += 1
   end
 
   def pop
     number = super()
     if number
       @sum -= number
-      @count -= 1
     end
     number
   end
 
   def mean
-    if @count == 0
-      nil
-    else
-      @sum.to_f / @count
-    end
+     @stack.empty? ? nil : @sum.to_f / @stack.size
   end
 end
+
 
 stack = Extras.new
 
